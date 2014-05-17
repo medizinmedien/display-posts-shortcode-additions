@@ -4,13 +4,18 @@ This plugin provides some snippets to enhance the plugin [Display Posts Shortcod
 
 ## Description
 
-Display a maximum of 3 tags within `[display-posts]` shortcode listings. Excerpts have to be enabled by `include_excerpt="1"`. Tags are displayed just before the excerpt dash separator. No options.
+1.) Display up to 3 post tags within `[display-posts]` shortcode listings when `include_excerpt="true"`. 2.) Individual image sizes are created on-the-fly by e.g. `image_size="300x150"`.
 
 ### Features
 
 * Display post tags.
 
 ## Changelog
+
+### Version 0.3
+
+* Add support for dynamically created thumbnail images.
+* Some small changes in comments and code.
 
 ### Version 0.2
 

@@ -50,10 +50,15 @@ add_filter( 'display_posts_shortcode_output', 'dspa_post_tags', 10, 9 );
  */
 function dpsa_resize_image( $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class ) {
 
-	// Quit, if we don't have a custom image size like e.g. "200x120".
-	if( !count( $img_w_h = explode( 'x', $original_atts['image_size'] ) ) == 2 ) {
+	// Quit, if the image_size attribute is not set.
+	if( !isset( $original_atts['image_size'] ) ) {
 		return $output;
 	}
+	// Quit, if we don't have a custom image size like e.g. "200x120".
+	elseif( !count( $img_w_h = explode( 'x', $original_atts['image_size'] ) ) == 2 ) {
+		return $output;
+	}
+	// Quit, if image width or height values are not numeric.
 	elseif( !is_numeric( $img_w_h[0] ) || !is_numeric( $img_w_h[1] ) ) {
 		return $output;
 	}

@@ -9,6 +9,7 @@ This plugin provides some snippets to enhance the plugin [Display Posts Shortcod
 ### Features
 
 * Display post tags.
+* Create and display custom sized thumbnails on-the-fly.
 
 ## Changelog
 

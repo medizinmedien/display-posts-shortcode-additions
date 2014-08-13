@@ -5,6 +5,7 @@
  * Version: 0.3
  * Author: Frank Stürzebecher
  * Author URI: http://netzklad.de
+ * Github Plugin URI: https://github.com/medizinmedien/display-posts-shortcode-additions
  *
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */

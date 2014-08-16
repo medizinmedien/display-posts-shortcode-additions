@@ -1,4 +1,4 @@
-### Änderungsprotokoll: Display Shortcode Additions
+### Änderungsprotokoll: Display Posts Shortcode Additions
 
 #### Version 0.3
 

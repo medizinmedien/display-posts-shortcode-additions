@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Display Posts Shortcode Additions
  * Description: 1.) Display up to 3 post tags within <code>[display-posts]</code> shortcode listings when <code>include_excerpt="true"</code>. 2.) Individual image sizes are created on-the-fly by e.g. <code>image_size="300x150"</code>.
- * Version: 0.3
+ * Version: 0.4
  * Author: Frank Stürzebecher
  * Author URI: http://netzklad.de
  * Github Plugin URI: https://github.com/medizinmedien/display-posts-shortcode-additions
@@ -19,20 +19,26 @@ define( 'MAX_TAGS_FOR_DPSHORTCODE', 3 );
  */
 function dspa_post_tags( $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content, $class ) {
 
-	$posttags = get_the_tags();
+	// Reduce number of tags to MAX_TAGS_FOR_DPSHORTCODE.
+	add_filter( 'term_links-post_tag', function( $term_links ) {
+		if( count( $term_links ) <= MAX_TAGS_FOR_DPSHORTCODE ) {
+			return $term_links;
+		}
+		while( count( $term_links ) > MAX_TAGS_FOR_DPSHORTCODE ) {
+			array_pop( $term_links );
+		}
+		return $term_links;
+	});
+
+	// Function get_the_term_list() applies the former filter.
+	global $post;
+	$posttags = get_the_term_list( $post->ID, 'post_tag' );
 
 	if ( $posttags ) {
 		$excerpt_dash = '<span class="excerpt-dash">-</span>';
 		$tag_dash     = '<span class="tag-dash">-</span>';
-		$tags_output = '';
-		$cnt = 1;
-		foreach( $posttags as $tag ) {
-			if( $cnt > MAX_TAGS_FOR_DPSHORTCODE )
-				break;
-			$tags_output .= '<a href="' . esc_url( get_tag_link( $tag->term_id ) ) . '">' . esc_html( $tag->name ) . '</a> ';
-			$cnt++;
-		}
-		$output = str_replace(
+		$tags_output  = str_replace( '<a ', ' <a ', $posttags );
+		$output       = str_replace(
 			$excerpt_dash,
 			$tag_dash . ' <span class="dpshortcode-tags">' . $tags_output . '</span>' . $excerpt_dash,
 			$output
@@ -67,7 +73,7 @@ function dpsa_resize_image( $output, $original_atts, $image, $title, $date, $exc
 	global $post;
 	require_once('inc/aq_resizer.php');
 	$thumb = get_post_thumbnail_id();
-	
+
 	// Get URL to image ('full' for best scaling results).
 	$img_url = wp_get_attachment_url( $thumb, 'full' );
 
